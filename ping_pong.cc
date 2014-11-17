@@ -6,7 +6,7 @@
 #include <stdlib.h>
 //#include <math.h>
 
-#define VERZIA 0.7
+#define VERZIA "0.7.1"
 
 using namespace std;
 
@@ -55,7 +55,7 @@ int main(int argc, char const *argv[]) {
 	int kto_podava = 2;
 	int vymena_podania = 0;
 	cout << "Hra o podanie" << endl;
-	podanie(kto_podava, bod, params);
+	podanie(kto_podava, bod, params);// zisti kto podava
 
 	for (int i = 0; i < 70; ++i) {
 		scanf ("%s",bod);
@@ -75,11 +75,11 @@ int main(int argc, char const *argv[]) {
 		if (count_hrac2 == 11 || count_hrac1 == 11) {
 			if (abs(count_hrac2 - count_hrac1) >= 2) {
 				if (count_hrac1 > count_hrac2) {
-					cout << "Vyhral " << params.hraci_array[0] <<endl;
+					cout << "Vyhral " << params.hraci_array[0] << "\nCongratulations!" << endl;
 					break;
 				}
 				else{
-					cout << "Vyhral " << params.hraci_array[1] << endl;
+					cout << "Vyhral " << params.hraci_array[1] << "\nCongratulations!" << endl;
 					break;
 				}
 			}
@@ -110,6 +110,10 @@ int nacitanie_hracov(int argc, char const *argv[], TStruct &params) {
 	}
 	params.hraci = argv[1];
 	params.pocet_hracov = (count(params.hraci.begin(), params.hraci.end(), ',')) + 1;
+	if (params.pocet_hracov == 1) {
+		cout << "Zadal si iba jedneho hraca.\nZadaj viacej hracov." << endl;
+		exit (1);
+	}
 	//vytvorenie pola o velkosti pocet_hracov
 	params.hraci_array = new string[params.pocet_hracov];
 	//cyklus pre naplnenie pola s menami hracov
@@ -137,8 +141,6 @@ int podanie(int &kto_podava, char bod[1], TStruct params) {
 		kto_podava = 1;
 		cout << "0 : 0" << " podava: "<< params.hraci_array[kto_podava] << endl;
 	}
-	// else
-	// 	cout << "Stlacil si nieco zle" << endl;
 	return 0;
 }
 int change_podanie(int &vymena_podania, int &kto_podava){
@@ -170,7 +172,6 @@ int detekcia_omylu(char bod[1], int &vymena_podania,int &count_hrac1,
 	cout << "Odcitanie bodu" << endl;
 	cout << "AKTUALNY STAV:" << endl;
 	cout << count_hrac1 << " : " << count_hrac2 << " podava: "<< params.hraci_array[kto_podava] << endl;
-	//vymena_podania--;
 	return 0;
 }
 	// string meno;
