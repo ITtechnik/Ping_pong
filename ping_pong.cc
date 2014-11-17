@@ -6,7 +6,7 @@
 #include <stdlib.h>
 //#include <math.h>
 
-#define VERZIA 0.6
+#define VERZIA 0.7
 
 using namespace std;
 
@@ -27,7 +27,8 @@ typedef struct {
 int nacitanie_hracov(int argc, char const *argv[], TStruct &params);
 int podanie(int &kto_podava, char bod[1], TStruct params);
 int change_podanie(int &vymena_podania, int &kto_podava);
-int detekcia_omylu(char bod[1], int &vymena_podania,int &count_hrac1, int &count_hrac2);
+int detekcia_omylu(char bod[1], int &vymena_podania,int &count_hrac1, int &count_hrac2,
+ int kto_podava, TStruct params);
 
 /***********************koniec inicializacie funkcii***********************/
 
@@ -69,7 +70,7 @@ int main(int argc, char const *argv[]) {
 			cout << count_hrac1 << " : " << count_hrac2 << " podava: "<< params.hraci_array[kto_podava] << endl;
 		}
 		else{
-			detekcia_omylu(bod, vymena_podania,count_hrac1, count_hrac2);
+			detekcia_omylu(bod, vymena_podania,count_hrac1, count_hrac2, kto_podava, params);
 		}
 		if (count_hrac2 == 11 || count_hrac1 == 11) {
 			if (abs(count_hrac2 - count_hrac1) >= 2) {
@@ -155,14 +156,20 @@ int change_podanie(int &vymena_podania, int &kto_podava){
 	return 0;
 }
 
-int detekcia_omylu(char bod[1], int &vymena_podania,int &count_hrac1, int &count_hrac2){
+int detekcia_omylu(char bod[1], int &vymena_podania,int &count_hrac1,
+ int &count_hrac2, int kto_podava, TStruct params){
 	if (strcmp(bod, "a") == 0) {
 		count_hrac1--;
+		count_hrac2++;
+
 	}
 	if (strcmp(bod, "s") == 0) {
 		count_hrac2--;
+		count_hrac1++;
 	}
 	cout << "Odcitanie bodu" << endl;
+	cout << "AKTUALNY STAV:" << endl;
+	cout << count_hrac1 << " : " << count_hrac2 << " podava: "<< params.hraci_array[kto_podava] << endl;
 	//vymena_podania--;
 	return 0;
 }
