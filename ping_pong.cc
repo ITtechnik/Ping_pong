@@ -19,21 +19,24 @@ typedef struct {
 	int body;
 }TStruct_hrac;
 
+/***********************inicializacia funkcii******************************/
+
 int nacitanie_hracov(int argc, char const *argv[], TStruct &params);
 int podanie(int &kto_podava, char bod[1], TStruct params);
+int change_podanie(int &vymena_podania, int &kto_podava);
 
+/***********************koniec inicializacie funkcii***********************/
+
+/********************************* main ***********************************/
 int main(int argc, char const *argv[]) {
 
 	TStruct params;
+	// TStruct_hrac array[5];
+	// array[0].meno = "kokoti";
+	// array[0].body = 5;
 
-
-
-
-
-
-
-
-
+	// cout << array[0].meno << endl;
+	// cout << array[0].body << endl;
 
 
 	nacitanie_hracov(argc, argv, params);
@@ -53,48 +56,15 @@ int main(int argc, char const *argv[]) {
 		scanf ("%s",bod);
 		if (strcmp(bod, "o") == 0) {
 			count_hrac1++;
-			vymena_podania++;
-
-			if (vymena_podania == 2) {
-				if (kto_podava == 0) {
-					kto_podava = 1;
-				}
-				else {
-					kto_podava = 0;
-				}
-					vymena_podania = 0;
-			}
-
-
-			if (kto_podava == 0) {
-				cout << count_hrac1 << " : " << count_hrac2 << " podava: "<< params.hraci_array[0] << endl;
-			}
-			else
-			cout << count_hrac1 << " : " << count_hrac2 << " podava: "<< params.hraci_array[1] << endl;
+			change_podanie(vymena_podania, kto_podava);
+			cout << count_hrac1 << " : " << count_hrac2 << " podava: "<< params.hraci_array[kto_podava] << endl;
 		}
 		else if (strcmp(bod, "p") == 0) {
 			count_hrac2++;
-
-			vymena_podania++;
-			if (vymena_podania == 2) {
-				if (kto_podava == 0) {
-					kto_podava = 1;
-				}
-				else {
-					kto_podava = 0;
-				}
-					vymena_podania = 0;
-			}
-
-
-			if (kto_podava == 1) {
-				cout << count_hrac1 << " : " << count_hrac2 << " podava: "<< params.hraci_array[1] << endl;
-			}
-			else
-			cout << count_hrac1 << " : " << count_hrac2 << " podava: "<< params.hraci_array[0] << endl;
+			change_podanie(vymena_podania, kto_podava);
+			cout << count_hrac1 << " : " << count_hrac2 << " podava: "<< params.hraci_array[kto_podava] << endl;
 		}
-		// else
-		// 	cout << "Stlacil si nieco zle" << endl;
+		
 		if (count_hrac2 == 11 || count_hrac1 == 11) {
 			if (abs(count_hrac2 - count_hrac1) >= 2) {
 				if (count_hrac1 > count_hrac2) {
@@ -162,7 +132,20 @@ int podanie(int &kto_podava, char bod[1], TStruct params) {
 	// 	cout << "Stlacil si nieco zle" << endl;
 	return 0;
 }
-
+int change_podanie(int &vymena_podania, int &kto_podava){
+	
+	vymena_podania++;
+	if (vymena_podania == 2) {
+		if (kto_podava == 0) {
+			kto_podava = 1;
+		}
+		else {
+			kto_podava = 0;
+		}
+			vymena_podania = 0;
+	}
+	return 0;
+}
 
 	// string meno;
 	// cin >> meno;
