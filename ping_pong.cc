@@ -6,6 +6,8 @@
 #include <stdlib.h>
 //#include <math.h>
 
+#define VERZIA 0.6
+
 using namespace std;
 
 typedef struct {
@@ -19,11 +21,13 @@ typedef struct {
 	int body;
 }TStruct_hrac;
 
+
 /***********************inicializacia funkcii******************************/
 
 int nacitanie_hracov(int argc, char const *argv[], TStruct &params);
 int podanie(int &kto_podava, char bod[1], TStruct params);
 int change_podanie(int &vymena_podania, int &kto_podava);
+int detekcia_omylu(char bod[1], int &vymena_podania,int &count_hrac1, int &count_hrac2);
 
 /***********************koniec inicializacie funkcii***********************/
 
@@ -64,7 +68,9 @@ int main(int argc, char const *argv[]) {
 			change_podanie(vymena_podania, kto_podava);
 			cout << count_hrac1 << " : " << count_hrac2 << " podava: "<< params.hraci_array[kto_podava] << endl;
 		}
-		
+		else{
+			detekcia_omylu(bod, vymena_podania,count_hrac1, count_hrac2);
+		}
 		if (count_hrac2 == 11 || count_hrac1 == 11) {
 			if (abs(count_hrac2 - count_hrac1) >= 2) {
 				if (count_hrac1 > count_hrac2) {
@@ -91,15 +97,16 @@ int nacitanie_hracov(int argc, char const *argv[], TStruct &params) {
 		cerr << "Bad arguments" << endl; //chybove hlasenie
 		cout << "Zadaj mena hracov oddelenych ciarkou" << endl;
 		cout << "Example: ./ping_pong hrac1,hrac2,hrac3" << endl;
+		cout << "Verzia programu: " << VERZIA << endl;
 		exit(1);//ukoncenie programu s navratovou hodnotou 1
 	}
-	if (argc < 1) {
+	if (argc == 1) {
 		cerr << "Neboli zadane ziadne mena hracov" << endl; //chybove hlasenie
 		cout << "Zadaj mena hracov oddelenych ciarkou" << endl;
 		cout << "Example: ./ping_pong hrac1,hrac2,hrac3" << endl;
+		cout << "Verzia programu: " << VERZIA << endl;
 		exit(1);//ukoncenie programu s navratovou hodnotou 1
 	}
-
 	params.hraci = argv[1];
 	params.pocet_hracov = (count(params.hraci.begin(), params.hraci.end(), ',')) + 1;
 	//vytvorenie pola o velkosti pocet_hracov
@@ -113,6 +120,7 @@ int nacitanie_hracov(int argc, char const *argv[], TStruct &params) {
 	}
 	if (params.pocet_hracov > 2) {
 		cerr << "Privela hracov pre tuto verziu programu" << endl; //chybove hlasenie
+		cout << "Verzia programu: " << VERZIA << endl;
 		exit(1);//ukoncenie programu s navratovou hodnotou 1
 	}
 	return 0;
@@ -122,11 +130,11 @@ int podanie(int &kto_podava, char bod[1], TStruct params) {
 	scanf ("%s",bod);
 	if (strcmp(bod, "o") == 0) {
 		kto_podava = 0;
-	cout << "0 : 0" << " podava: "<< params.hraci_array[0] <<  endl;
+	cout << "0 : 0" << " podava: "<< params.hraci_array[kto_podava] <<  endl;
 	}
 	else if (strcmp(bod, "p") == 0) {
 		kto_podava = 1;
-		cout << "0 : 0" << " podava: "<< params.hraci_array[1] << endl;
+		cout << "0 : 0" << " podava: "<< params.hraci_array[kto_podava] << endl;
 	}
 	// else
 	// 	cout << "Stlacil si nieco zle" << endl;
@@ -147,6 +155,17 @@ int change_podanie(int &vymena_podania, int &kto_podava){
 	return 0;
 }
 
+int detekcia_omylu(char bod[1], int &vymena_podania,int &count_hrac1, int &count_hrac2){
+	if (strcmp(bod, "a") == 0) {
+		count_hrac1--;
+	}
+	if (strcmp(bod, "s") == 0) {
+		count_hrac2--;
+	}
+	cout << "Odcitanie bodu" << endl;
+	//vymena_podania--;
+	return 0;
+}
 	// string meno;
 	// cin >> meno;
 	// cout << meno << endl;
