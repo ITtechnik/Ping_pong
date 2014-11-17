@@ -1,8 +1,10 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
-// #include <stdlib.h>
-// #include <stdio.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+//#include <math.h>
 
 using namespace std;
 
@@ -18,13 +20,94 @@ typedef struct {
 }TStruct_hrac;
 
 int nacitanie_hracov(int argc, char const *argv[], TStruct &params);
+int podanie(int &kto_podava, char bod[1], TStruct params);
 
 int main(int argc, char const *argv[]) {
 
 	TStruct params;
-	TStruct_hrac hrac;
+
+
+
+
+
+
+
+
+
+
 
 	nacitanie_hracov(argc, argv, params);
+	cout << "----------------------------------------------------------" << endl;
+	cout << "START GAME" << endl;
+	cout << endl;
+	cout << params.hraci_array[0] << " VS " << params.hraci_array[1] << endl;
+	char bod[1];
+	int count_hrac1 = 0;
+	int count_hrac2 = 0;
+	int kto_podava = 2;
+	int vymena_podania = 0;
+	cout << "Hra o podanie" << endl;
+	podanie(kto_podava, bod, params);
+
+	for (int i = 0; i < 70; ++i) {
+		scanf ("%s",bod);
+		if (strcmp(bod, "o") == 0) {
+			count_hrac1++;
+			vymena_podania++;
+
+			if (vymena_podania == 2) {
+				if (kto_podava == 0) {
+					kto_podava = 1;
+				}
+				else {
+					kto_podava = 0;
+				}
+					vymena_podania = 0;
+			}
+
+
+			if (kto_podava == 0) {
+				cout << count_hrac1 << " : " << count_hrac2 << " podava: "<< params.hraci_array[0] << endl;
+			}
+			else
+			cout << count_hrac1 << " : " << count_hrac2 << " podava: "<< params.hraci_array[1] << endl;
+		}
+		else if (strcmp(bod, "p") == 0) {
+			count_hrac2++;
+
+			vymena_podania++;
+			if (vymena_podania == 2) {
+				if (kto_podava == 0) {
+					kto_podava = 1;
+				}
+				else {
+					kto_podava = 0;
+				}
+					vymena_podania = 0;
+			}
+
+
+			if (kto_podava == 1) {
+				cout << count_hrac1 << " : " << count_hrac2 << " podava: "<< params.hraci_array[1] << endl;
+			}
+			else
+			cout << count_hrac1 << " : " << count_hrac2 << " podava: "<< params.hraci_array[0] << endl;
+		}
+		// else
+		// 	cout << "Stlacil si nieco zle" << endl;
+		if (count_hrac2 == 11 || count_hrac1 == 11) {
+			if (abs(count_hrac2 - count_hrac1) >= 2) {
+				if (count_hrac1 > count_hrac2) {
+					cout << "Vyhral " << params.hraci_array[0] <<endl;
+					break;
+				}
+				else{
+					cout << "Vyhral " << params.hraci_array[1] << endl;
+					break;
+				}
+			}
+		}
+	}
 
 	return 0;
 }
@@ -56,16 +139,29 @@ int nacitanie_hracov(int argc, char const *argv[], TStruct &params) {
 		int index = params.hraci.find_first_of(","); // najde index prvej ciarky
 		params.hraci_array[i] = params.hraci.substr(0, index); // naplni pole menom hraca po prvu ciarku
   		params.hraci.erase(0, index+1); // zmensi argument o hraca ,ktroy uz je v poli
-  		cout << params.hraci_array[i] << endl;
+  		//cout << params.hraci_array[i] << endl;
 	}
-	if (params.pocet_hracov > 5) {
+	if (params.pocet_hracov > 2) {
 		cerr << "Privela hracov pre tuto verziu programu" << endl; //chybove hlasenie
 		exit(1);//ukoncenie programu s navratovou hodnotou 1
 	}
 	return 0;
 }
-	
+int podanie(int &kto_podava, char bod[1], TStruct params) {
 
+	scanf ("%s",bod);
+	if (strcmp(bod, "o") == 0) {
+		kto_podava = 0;
+	cout << "0 : 0" << " podava: "<< params.hraci_array[0] <<  endl;
+	}
+	else if (strcmp(bod, "p") == 0) {
+		kto_podava = 1;
+		cout << "0 : 0" << " podava: "<< params.hraci_array[1] << endl;
+	}
+	// else
+	// 	cout << "Stlacil si nieco zle" << endl;
+	return 0;
+}
 
 
 	// string meno;
