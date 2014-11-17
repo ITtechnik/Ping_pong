@@ -6,7 +6,7 @@
 #include <stdlib.h>
 //#include <math.h>
 
-#define VERZIA "0.7.1"
+#define VERZIA "0.7.2"
 
 using namespace std;
 
@@ -28,7 +28,7 @@ int nacitanie_hracov(int argc, char const *argv[], TStruct &params);
 int podanie(int &kto_podava, char bod[1], TStruct params);
 int change_podanie(int &vymena_podania, int &kto_podava);
 int detekcia_omylu(char bod[1], int &vymena_podania,int &count_hrac1, int &count_hrac2,
- int kto_podava, TStruct params);
+int kto_podava, TStruct params);
 
 /***********************koniec inicializacie funkcii***********************/
 
@@ -57,7 +57,7 @@ int main(int argc, char const *argv[]) {
 	cout << "Hra o podanie" << endl;
 	podanie(kto_podava, bod, params);// zisti kto podava
 
-	for (int i = 0; i < 70; ++i) {
+	for (int i = 0;; ++i) {
 		scanf ("%s",bod);
 		if (strcmp(bod, "o") == 0) {
 			count_hrac1++;
@@ -72,7 +72,7 @@ int main(int argc, char const *argv[]) {
 		else{
 			detekcia_omylu(bod, vymena_podania,count_hrac1, count_hrac2, kto_podava, params);
 		}
-		if (count_hrac2 == 11 || count_hrac1 == 11) {
+		if (count_hrac2 >= 11 || count_hrac1 >= 11) {
 			if (abs(count_hrac2 - count_hrac1) >= 2) {
 				if (count_hrac1 > count_hrac2) {
 					cout << "Vyhral " << params.hraci_array[0] << "\nCongratulations!" << endl;
@@ -160,18 +160,20 @@ int change_podanie(int &vymena_podania, int &kto_podava){
 
 int detekcia_omylu(char bod[1], int &vymena_podania,int &count_hrac1,
  int &count_hrac2, int kto_podava, TStruct params){
-	if (strcmp(bod, "a") == 0) {
-		count_hrac1--;
-		count_hrac2++;
+ 	if (strcmp(bod, "a") == 0 || strcmp(bod, "s") == 0) {
+		if (strcmp(bod, "a") == 0) {
+			count_hrac1--;
+			count_hrac2++;
 
-	}
-	if (strcmp(bod, "s") == 0) {
-		count_hrac2--;
-		count_hrac1++;
-	}
-	cout << "Odcitanie bodu" << endl;
-	cout << "AKTUALNY STAV:" << endl;
-	cout << count_hrac1 << " : " << count_hrac2 << " podava: "<< params.hraci_array[kto_podava] << endl;
+		}
+		if (strcmp(bod, "s") == 0) {
+			count_hrac2--;
+			count_hrac1++;
+		}
+		cout << "Odcitanie bodu" << endl;
+		cout << "AKTUALNY STAV:" << endl;
+		cout << count_hrac1 << " : " << count_hrac2 << " podava: "<< params.hraci_array[kto_podava] << endl;
+ 	}
 	return 0;
 }
 	// string meno;
